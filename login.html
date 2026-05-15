@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>登录 — 西港酒店集团</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>:root{--navy:#1a2c3e;--navy-dark:#0f1d2b;--gold:#c8a96e;--white:#ffffff;--gray-light:#f5f7fa;--gray-mid:#e8ebef;--gray-text:#666;--font-display:'Noto Serif SC','Georgia',serif;--font-body:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;--transition:all 0.3s ease;--shadow:0 2px 20px rgba(26,44,62,0.08)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font-body);color:#333;background:var(--gray-light);-webkit-font-smoothing:antialiased}a{text-decoration:none;color:inherit}
+.top-bar{background:var(--navy-dark);color:var(--gold);padding:8px 40px;display:flex;justify-content:flex-end;gap:24px;font-size:12px}.top-bar a{color:var(--gold);transition:var(--transition)}.top-bar a:hover{color:var(--white)}
+nav{background:var(--navy);padding:0 40px;display:flex;align-items:center;height:64px;position:fixed;top:0;z-index:100}
+nav .logo{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold);letter-spacing:2px;margin-right:48px}
+nav .logo span{color:var(--white);font-weight:300}nav .nav-links{display:flex;gap:28px;flex:1}
+nav .nav-links a{color:rgba(255,255,255,0.85);font-size:13px;transition:var(--transition);padding:4px 0}
+nav .nav-links a:hover{color:var(--gold)}
+/* Auth form */
+.auth-wrap{min-height:calc(100vh - 64px - 60px);display:flex;align-items:center;justify-content:center;padding:60px 20px}
+.auth-card{background:var(--white);border-radius:12px;box-shadow:var(--shadow);padding:48px;width:100%;max-width:400px}
+.auth-card .logo-icon{text-align:center;margin-bottom:24px;font-size:36px}
+.auth-card h1{text-align:center;font-family:var(--font-display);font-size:28px;color:var(--navy);margin-bottom:4px}
+.auth-card .subtitle{text-align:center;font-size:13px;color:var(--gray-text);margin-bottom:32px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:13px;color:var(--gray-text);margin-bottom:6px;font-weight:500}
+.form-group input{width:100%;padding:12px 16px;border:1px solid var(--gray-mid);border-radius:6px;font-size:14px;font-family:var(--font-body);transition:var(--transition)}
+.form-group input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(26,44,62,0.1)}
+.btn-auth{width:100%;padding:13px;background:var(--gold);color:var(--navy);border:none;border-radius:25px;font-size:15px;font-weight:600;cursor:pointer;transition:var(--transition);margin-top:8px}
+.btn-auth:hover{background:#b89550;transform:translateY(-1px);box-shadow:0 4px 12px rgba(200,169,110,0.3)}
+.forgot-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px}
+.forgot-row label{display:flex;align-items:center;gap:6px;color:var(--gray-text);cursor:pointer}
+.forgot-row a{color:var(--gray-text);text-decoration:underline}
+.forgot-row a:hover{color:var(--navy)}
+.quick-login{margin-top:24px;padding-top:20px;border-top:1px solid var(--gray-light)}
+.quick-login p{font-size:13px;color:var(--gray-text);text-align:center;margin-bottom:12px}
+.quick-login .social-btns{display:flex;gap:12px}
+.quick-login .social-btns a{flex:1;padding:10px;text-align:center;border:1px solid var(--gray-mid);border-radius:6px;font-size:13px;transition:var(--transition)}
+.quick-login .social-btns a:hover{background:var(--gray-light)}
+.auth-footer{text-align:center;margin-top:20px;font-size:14px;color:var(--gray-text)}
+.auth-footer a{color:var(--gold);font-weight:600}
+
+
+@media(max-width:768px){nav{padding:0 20px}.auth-card{padding:32px 24px}}
+
+.mobile-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; }
+.mobile-toggle span { width: 22px; height: 2px; background: var(--gold); border-radius: 2px; transition: 0.3s; }
+.mobile-toggle span:nth-child(2) { width: 16px; }
+
+nav .nav-links a { position: relative; }
+nav .nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 2px; background: var(--gold); transition: var(--transition);
+}
+nav .nav-links a:hover::after { width: 100%; }
+nav .nav-links a.active { color: var(--gold); }
+nav .nav-links a.active::after { width: 100%; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .mobile-toggle { display: flex; }
+  nav .nav-links {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--navy);
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 99;
+  }
+  nav .nav-links.open { display: flex; }
+  nav .nav-actions { display: none; }
+  .auth-card { padding: 32px 24px; }
+  .section { padding: 48px 20px; }
+}
+@media (max-width: 480px) {
+  body { overflow-x: hidden; }
+  body { font-size: 14px; }
+  .section { padding: 32px 16px !important; }
+}
+
+
+</style>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="topbar-placeholder" style="min-height:30px"></div>
+</div>
+<div id="nav-placeholder" style="min-height:64px" data-active="membership"></div>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="logo-icon">👑</div>
+    <h1>欢迎回来</h1>
+    <p class="subtitle">登录您的ALL会员账号</p>
+    <div style="text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;">🔧</div>
+      <p style="color:var(--gray-text);font-size:14px;line-height:1.8;margin-bottom:24px;">
+        会员登录功能正在开发中。<br>
+        如需预订或咨询，请直接联系我们：
+      </p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:32px;">
+        <div style="font-size:13px;color:var(--gray-text);">📞 +855 XX XXX XXXX</div>
+        <div style="font-size:13px;color:var(--gray-text);">💬 微信：xigang-hotels</div>
+        <div style="font-size:13px;color:var(--gray-text);">📧 info@xigang-hotels.com</div>
+      </div>
+      <a href="index.html" class="btn-auth" style="display:inline-block;text-align:center;">返回首页</a>
+    </div>
+  </div>
+</div>
+
+
+
+<script>document.addEventListener('click',function(e){var b=e.target.closest('.mobile-toggle');if(b){document.querySelector('nav>.nav-links').classList.toggle('open');return}var n=document.querySelector('nav>.nav-links');if(n&&n.classList.contains('open')&&!e.target.closest('nav'))n.classList.remove('open')});document.querySelectorAll('nav>.nav-links a').forEach(function(l){l.addEventListener('click',function(){this.closest('.nav-links').classList.remove('open')})});</script>
+
+
+
+
+<script>
+// ===== Load TopBar =====
+fetch('topbar.html?v=20260515')
+  .then(function(r){ return r.text(); })
+  .then(function(h){
+    document.getElementById('topbar-placeholder').innerHTML = h;
+  });
+
+// ===== Load Nav =====
+fetch('nav.html?v=20260515')
+  .then(function(r){ return r.text(); })
+  .then(function(h){
+    var ph = document.getElementById('nav-placeholder');
+    var page = ph ? ph.getAttribute('data-active') : '';
+    if (page) {
+      h = h.replace('class="nav-item" data-page="' + page + '"', 'class="nav-item active" data-page="' + page + '"');
+    }
+    document.getElementById('nav-placeholder').innerHTML = h;
+  });
+
+// ===== 导航事件委托 =====
+document.addEventListener('click', function(e) {
+  var toggle = e.target.closest('.mobile-toggle');
+  if (toggle) {
+    var links = document.querySelector('.nav-links');
+    if (links) links.classList.toggle('open');
+    return;
+  }
+  var link = e.target.closest('nav a');
+  if (link) {
+    var nl = document.querySelector('.nav-links');
+    if (nl) nl.classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>

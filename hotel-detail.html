@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>酒店详情 �?西港酒店集团</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1a2c3e;
+  --navy-dark: #0f1d2b;
+  --gold: #c8a96e;
+  --gold-dark: #a88c4e;
+  --red: #d94a38;
+  --white: #ffffff;
+  --gray-light: #f5f7fa;
+  --gray-mid: #e8ebef;
+  --gray-text: #666666;
+  --gray-dark: #333333;
+  --font-display: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'Georgia', serif;
+  --font-body: 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
+  --shadow: 0 2px 20px rgba(26,44,62,0.08);
+  --shadow-hover: 0 8px 40px rgba(26,44,62,0.15);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-body); color: var(--gray-dark); background: var(--white); -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ===== TOP BAR ===== */
+.top-bar {
+  background: var(--navy-dark); color: var(--gold);
+  padding: 8px 40px; display: flex; justify-content: flex-end;
+  align-items: center; gap: 24px; font-size: 12px; letter-spacing: 0.5px;
+}
+.top-bar a { color: var(--gold); transition: var(--transition); }
+.top-bar a:hover { color: var(--white); }
+.top-bar .divider { color: rgba(200,169,110,0.3); }
+.top-bar .lang-selector { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+#userStatus { font-size: 12px; color: var(--gold); }
+#userStatus a { color: var(--gold); }
+#userStatus a:hover { color: var(--white); }
+
+/* ===== NAV ===== */
+nav {
+  background: var(--navy); padding: 0 40px; display: flex;
+  align-items: center; height: 64px; position: fixed; top: 0; z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+nav .logo {
+  font-family: var(--font-display); font-size: 22px; font-weight: 700;
+  color: var(--gold); letter-spacing: 2px; margin-right: 48px;
+}
+nav .logo span { color: var(--white); font-weight: 300; }
+nav .nav-links { display: flex; gap: 28px; flex: 1; }
+nav .nav-links a {
+  color: rgba(255,255,255,0.85); font-size: 13px; letter-spacing: 0.3px;
+  transition: var(--transition); position: relative; padding: 4px 0;
+}
+nav .nav-links a:hover { color: var(--gold); }
+nav .nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 2px; background: var(--gold); transition: var(--transition);
+}
+nav .nav-links a:hover::after { width: 100%; }
+nav .nav-links a.active { color: var(--gold); }
+nav .nav-links a.active::after { width: 100%; }
+nav .nav-actions { display: flex; gap: 16px; align-items: center; }
+nav .nav-actions a { color: rgba(255,255,255,0.85); font-size: 13px; transition: var(--transition); }
+nav .nav-actions a:hover { color: var(--gold); }
+nav .nav-actions a.gold { color: var(--gold); font-weight: 600; }
+.mobile-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; }
+.mobile-toggle span { width: 22px; height: 2px; background: var(--gold); border-radius: 2px; }
+
+/* ===== SECTION ===== */
+.section { padding: 64px 40px; }
+.section-title { text-align: center; margin-bottom: 48px; }
+.section-title h2 {
+  font-family: var(--font-display); font-size: 28px;
+  color: var(--navy); margin-bottom: 12px; letter-spacing: 1px;
+}
+.section-title p { color: var(--gray-text); font-size: 15px; }
+.section.navy-bg { background: var(--gray-light); }
+
+/* ===== HERO BANNER ===== */
+.detail-hero {
+  position: relative; height: 55vh; min-height: 380px; overflow: hidden;
+}
+.detail-hero img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+.detail-hero .overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(26,44,62,0.75) 0%, rgba(26,44,62,0.2) 100%);
+}
+.detail-hero .hero-text {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 40px; color: var(--white);
+}
+.detail-hero .hero-text h1 {
+  font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px);
+  margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.detail-hero .hero-text .meta {
+  display: flex; gap: 20px; font-size: 14px; color: var(--gold);
+  flex-wrap: wrap;
+}
+.detail-hero .hero-text .meta span { display: flex; align-items: center; gap: 6px; }
+
+/* ===== INTRO ===== */
+.intro-wrap {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+}
+.intro-wrap .text h2 {
+  font-family: var(--font-display); font-size: 26px; color: var(--navy); margin-bottom: 16px;
+}
+.intro-wrap .text p {
+  font-size: 14px; color: var(--gray-text); line-height: 1.8; margin-bottom: 12px;
+}
+.intro-wrap .text .highlights {
+  display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px;
+}
+.intro-wrap .text .highlights span {
+  background: rgba(200,169,110,0.1); color: var(--gold-dark);
+  padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 500;
+}
+.intro-wrap .gallery {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.intro-wrap .gallery img { border-radius: 8px; width: 100%; height: 200px; object-fit: cover; cursor: pointer; transition: var(--transition); }
+.intro-wrap .gallery img:hover { opacity: 0.85; }
+.intro-wrap .gallery img:first-child { grid-column: 1 / -1; height: 280px; }
+
+/* ===== ROOMS ===== */
+.rooms-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; max-width: 1200px; margin: 0 auto;
+}
+.room-card {
+  background: var(--white); border: 1px solid var(--gray-mid);
+  border-radius: 8px; padding: 0; text-align: center;
+  transition: var(--transition); overflow: hidden;
+}
+.room-card:hover { border-color: var(--gold); box-shadow: var(--shadow); transform: translateY(-3px); }
+.room-card .room-img { width: 100%; height: 180px; object-fit: cover; background: var(--gray-light); }
+.room-card .room-body { padding: 24px 20px 28px; }
+.room-card .room-icon { font-size: 36px; margin-bottom: 8px; }
+.room-card h3 { font-size: 18px; color: var(--navy); margin-bottom: 4px; }
+.room-card .room-desc { font-size: 13px; color: var(--gray-text); margin-bottom: 12px; line-height: 1.5; min-height: 36px; }
+.room-card .room-price { font-size: 28px; font-weight: 700; color: var(--red); }
+.room-card .room-price small { font-size: 13px; font-weight: 400; color: var(--gray-text); }
+.room-card .room-features {
+  display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+  margin: 12px 0 16px;
+}
+.room-card .room-features span {
+  background: var(--gray-light); padding: 3px 10px;
+  border-radius: 3px; font-size: 11px; color: var(--gray-text);
+}
+.room-card .btn-book {
+  display: inline-block; padding: 10px 32px;
+  background: var(--red); color: var(--white); border: none;
+  border-radius: 20px; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: var(--transition); letter-spacing: 0.5px;
+}
+.room-card .btn-book:hover { background: #c13d2d; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(217,74,56,0.3); }
+
+/* ===== FACILITIES ===== */
+.facilities-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px; max-width: 1000px; margin: 0 auto;
+}
+.facility-card {
+  text-align: center; padding: 24px 16px;
+  background: var(--white); border-radius: 8px;
+  transition: var(--transition); border: 1px solid transparent;
+}
+.facility-card:hover { border-color: var(--gold); box-shadow: var(--shadow); }
+.facility-card .f-icon { font-size: 32px; margin-bottom: 12px; }
+.facility-card h4 { font-size: 14px; color: var(--navy); margin-bottom: 4px; }
+.facility-card p { font-size: 12px; color: var(--gray-text); }
+
+/* ===== REVIEWS ===== */
+.review-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; max-width: 1000px; margin: 0 auto;
+}
+.review-card {
+  background: var(--gray-light); border-radius: 8px; padding: 28px;
+}
+.review-card .stars { color: var(--gold); font-size: 16px; margin-bottom: 12px; }
+.review-card p {
+  font-size: 14px; color: var(--gray-text); line-height: 1.7;
+  margin-bottom: 16px; font-style: italic;
+}
+.review-card .author { font-size: 12px; color: var(--navy); font-weight: 600; }
+
+/* ===== LOCATION ===== */
+.location-wrap {
+  max-width: 1000px; margin: 0 auto; display: grid;
+  grid-template-columns: 1fr 1fr; gap: 40px;
+}
+.location-wrap .info h3 {
+  font-family: var(--font-display); font-size: 22px; color: var(--navy); margin-bottom: 16px;
+}
+.location-wrap .info .item {
+  display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;
+}
+.location-wrap .info .item .icon-text { font-size: 20px; line-height: 1.4; }
+.location-wrap .info .item p { font-size: 14px; color: var(--gray-text); line-height: 1.6; }
+.location-wrap .info .item p strong { color: var(--navy); }
+.location-wrap .map-container,
+.location-wrap .map-placeholder {
+  border-radius: 8px; overflow: hidden;
+  height: 300px; border: 1px solid var(--gray-mid);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--gray-light);
+}
+.location-wrap .map-container iframe { width: 100%; height: 100%; border: 0; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--navy-dark); color: rgba(255,255,255,0.7);
+  padding: 60px 40px 30px;
+}
+footer .footer-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px; max-width: 1200px; margin: 0 auto 40px;
+}
+footer h4 { color: var(--gold); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 10px; }
+footer ul li a { color: rgba(255,255,255,0.6); font-size: 13px; transition: var(--transition); }
+footer ul li a:hover { color: var(--gold); }
+footer .divider { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; text-align: center; }
+footer .divider p { font-size: 12px; color: rgba(255,255,255,0.4); }
+.payment-icons { display: flex; justify-content: center; gap: 8px; margin-top: 16px; align-items: center; flex-wrap: wrap; }
+
+/* ===== BOOKING MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.5);
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: 12px;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow-y: auto; max-height: 90vh;
+}
+.modal-header {
+  background: var(--navy); color: var(--white);
+  padding: 20px 24px; border-radius: 12px 12px 0 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-header h2 { font-family: var(--font-display); font-size: 18px; }
+.modal-header .close-btn {
+  width: 32px; height: 32px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,0.15); color: var(--white);
+  font-size: 18px; cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-header .close-btn:hover { background: rgba(255,255,255,0.3); }
+.modal-body { padding: 24px; }
+.modal-body .room-preview {
+  display: flex; gap: 16px; align-items: center;
+  padding: 16px; background: var(--gray-light); border-radius: 8px;
+  margin-bottom: 20px;
+}
+.modal-body .room-preview .rp-img { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; background: var(--gray-mid); }
+.modal-body .room-preview .rp-info h4 { font-size: 15px; color: var(--navy); }
+.modal-body .room-preview .rp-info p { font-size: 12px; color: var(--gray-text); }
+.modal-body .room-preview .rp-price { font-size: 20px; font-weight: 700; color: var(--red); margin-left: auto; white-space: nowrap; }
+.modal-body .form-group { margin-bottom: 16px; }
+.modal-body .form-group label {
+  display: block; font-size: 13px; color: var(--gray-text);
+  margin-bottom: 6px; font-weight: 500;
+}
+.modal-body .form-group input, .modal-body .form-group textarea {
+  width: 100%; padding: 10px 14px;
+  border: 1px solid var(--gray-mid); border-radius: 6px;
+  font-size: 14px; font-family: var(--font-body); transition: var(--transition);
+}
+.modal-body .form-group input:focus, .modal-body .form-group textarea:focus {
+  outline: none; border-color: var(--navy);
+  box-shadow: 0 0 0 2px rgba(26,44,62,0.1);
+}
+.modal-body .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-body .total-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 0; margin: 8px 0;
+  border-top: 1px solid var(--gray-light);
+}
+.modal-body .total-row .label { font-size: 14px; color: var(--gray-text); }
+.modal-body .total-row .amount { font-size: 24px; font-weight: 700; color: var(--red); }
+.modal-body .btn-submit {
+  width: 100%; padding: 14px; border: none; border-radius: 25px;
+  background: var(--gold); color: var(--navy);
+  font-size: 15px; font-weight: 600; cursor: pointer;
+  transition: var(--transition);
+}
+.modal-body .btn-submit:hover {
+  background: #b89550; transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(200,169,110,0.3);
+}
+.modal-body .btn-submit:disabled {
+  opacity: 0.5; cursor: not-allowed; transform: none;
+}
+.modal-body .form-error { font-size: 12px; color: var(--red); margin-top: 4px; display: none; }
+.modal-body .form-error.show { display: block; }
+
+/* ===== LOADING STATE ===== */
+.loading {
+  text-align: center; padding: 40px; color: var(--gray-text); font-size: 14px;
+}
+.loading::before { content: '�?'; }
+
+/* ===== IMAGE LIGHTBOX ===== */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 99999;
+  background: rgba(0,0,0,0.85);
+  align-items: center; justify-content: center;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 90vw; max-height: 90vh; border-radius: 8px;
+  box-shadow: 0 10px 60px rgba(0,0,0,0.5);
+}
+.lightbox .close-lb {
+  position: absolute; top: 20px; right: 20px;
+  width: 40px; height: 40px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,0.2); color: white;
+  font-size: 22px; cursor: pointer; transition: var(--transition);
+}
+.lightbox .close-lb:hover { background: rgba(255,255,255,0.4); }
+
+/* ===== EMPTY STATE ===== */
+.empty-state { text-align: center; padding: 40px 20px; color: var(--gray-text); font-size: 14px; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .mobile-toggle { display: flex; }
+  nav .nav-links {
+    display: none; position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--navy); flex-direction: column; padding: 20px; gap: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  nav .nav-links.open { display: flex; }
+  nav .nav-actions { display: none; }
+  .section { padding: 48px 20px; }
+  .rooms-grid { grid-template-columns: 1fr; }
+  .intro-wrap { grid-template-columns: 1fr; gap: 24px; }
+  .intro-wrap .gallery img:first-child { height: 200px; }
+  .intro-wrap .gallery img { height: 140px; }
+  .facilities-grid, .review-grid { grid-template-columns: 1fr; }
+  .location-wrap { grid-template-columns: 1fr; gap: 24px; }
+  .modal-body .form-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .detail-hero { height: 45vh; min-height: 300px; }
+  body { font-size: 14px; }
+  .section { padding: 32px 16px !important; }
+}
+</style>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div id="topbar-placeholder" style="min-height:30px"></div>
+</div>
+
+<!-- ===== NAV ===== -->
+<div id="nav-placeholder" style="min-height:64px" data-active="hotels"></div>
+
+<!-- ===== HERO ===== -->
+<section class="detail-hero" id="heroSection">
+  <img src="" alt="" id="heroImage" style="background:#2a4a6e">
+  <div class="overlay"></div>
+  <div class="hero-text">
+    <h1 id="heroTitle">加载�?..</h1>
+    <div class="meta" id="heroMeta"></div>
+  </div>
+</section>
+
+<!-- ===== INTRO ===== -->
+<section class="section">
+  <div class="intro-wrap">
+    <div class="text">
+      <p id="introDesc1" style="margin-top:0;">加载�?..</p>
+      <p id="introDesc2"></p>
+      <div class="highlights" id="introTags"></div>
+    </div>
+    <div class="gallery" id="hotelGallery"></div>
+  </div>
+</section>
+
+<!-- ===== ROOMS ===== -->
+<section class="section navy-bg">
+  <div class="rooms-grid" id="roomsGrid">
+    <div class="loading">加载房型...</div>
+  </div>
+</section>
+
+<!-- ===== FACILITIES ===== -->
+<section class="section" id="facilitiesSection" style="display:none;">
+  <div class="facilities-grid" id="facilitiesGrid"></div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section class="section navy-bg">
+  <div class="review-grid" id="reviewsGrid">
+    <div class="loading">加载评价...</div>
+  </div>
+</section>
+
+<!-- ===== LOCATION ===== -->
+<section class="section">
+  <div class="location-wrap">
+    <div class="info" id="locationInfo">
+      <h3>周边配套</h3>
+      <div class="item">
+        <div class="icon-text">📍</div>
+        <p><strong>地址�?/strong><span id="locAddress">西哈努克市中�?/span></p>
+      </div>
+      <div class="item">
+        <div class="icon-text">📞</div>
+        <p><strong>电话�?/strong><span id="locPhone">暂无</span></p>
+      </div>
+      <div class="item">
+        <div class="icon-text">🏪</div>
+        <p><strong>周边�?/strong>双狮广场（步�?分钟）、CDF免税店（步行8分钟）、夜市（步行10分钟�?/p>
+      </div>
+      <div class="item">
+        <div class="icon-text">🚕</div>
+        <p><strong>交通：</strong>西港机场车程�?5分钟</p>
+      </div>
+      <div class="item">
+        <div class="icon-text">🍜</div>
+        <p><strong>餐饮�?/strong>周边中餐馆、本地高棉菜餐厅、海鲜排档应有尽�?/p>
+      </div>
+    </div>
+    <div class="map-placeholder" id="mapContainer">
+      <div style="font-size:48px;margin-bottom:8px;">🗺�?/div>
+      <div style="font-size:14px;color:var(--gray-text);">西哈努克市中�?/div>
+      <div style="font-size:12px;color:var(--gray-mid);margin-top:4px;">地图加载�?..</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<div id="footer-placeholder"></div>
+
+<!-- ===== BOOKING MODAL ===== -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>📋 提交预订</h2>
+      <button class="close-btn" onclick="closeBookingModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="room-preview" id="roomPreview">
+        <div class="rp-info">
+          <h4 id="modalRoomName">房型名称</h4>
+          <p id="modalRoomPrice">价格</p>
+        </div>
+        <div class="rp-price" id="modalPriceDisplay">$0</div>
+      </div>
+      <form id="bookingForm">
+        <input type="hidden" name="room_id" id="bookRoomId" value="">
+        <div class="form-row">
+          <div class="form-group">
+            <label>入住日期 *</label>
+            <input type="date" name="check_in" id="bookCheckIn" required>
+            <div class="form-error" id="errCheckIn">请选择入住日期</div>
+          </div>
+          <div class="form-group">
+            <label>退房日�?*</label>
+            <input type="date" name="check_out" id="bookCheckOut" required>
+            <div class="form-error" id="errCheckOut">请选择退房日�?/div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>入住人姓�?*</label>
+            <input type="text" name="guest_name" id="bookName" placeholder="请输入姓�? required>
+            <div class="form-error" id="errName">请填写姓�?/div>
+          </div>
+          <div class="form-group">
+            <label>联系电话 *</label>
+            <input type="tel" name="guest_phone" id="bookPhone" placeholder="请输入手机号" required>
+            <div class="form-error" id="errPhone">请填写电�?/div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>备注（选填�?/label>
+          <textarea name="notes" id="bookNotes" rows="2" placeholder="如有特殊要求请在此注�?></textarea>
+        </div>
+        <div class="total-row">
+          <span class="label">预计总价</span>
+          <span class="amount" id="modalTotal">$0</span>
+        </div>
+        <div class="form-error" id="errGeneral" style="text-align:center;"></div>
+        <button type="submit" class="btn-submit" id="btnSubmitBooking">确认预订</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===== IMAGE LIGHTBOX ===== -->
+<div class="lightbox" id="imageLightbox" onclick="this.classList.remove('open')">
+  <button class="close-lb">&times;</button>
+  <img src="" alt="" id="lightboxImage">
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+// ===== 导航菜单 =====
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.mobile-toggle');
+  if(b){document.querySelector('nav>.nav-links').classList.toggle('open');return}
+  var n=document.querySelector('nav>.nav-links');
+  if(n&&n.classList.contains('open')&&!e.target.closest('nav'))n.classList.remove('open')
+});
+document.querySelectorAll('nav>.nav-links a').forEach(function(l){
+  l.addEventListener('click',function(){this.closest('.nav-links').classList.remove('open')})
+});
+</script>
+
+<script>
+fetch('footer.html?v=20260515').then(function(r){return r.text()}).then(function(h){
+  document.getElementById('footer-placeholder').innerHTML = h;
+});
+</script>
+
+<!-- ===== 用户状�?===== -->
+<!-- ===== 核心数据加载 ===== -->
+<script>
+(function(){
+  var params = new URLSearchParams(location.search);
+  var hotelId = params.get('id') ? parseInt(params.get('id')) : 4;
+
+  // 打开图片灯箱
+  function openLightbox(src) {
+    if (!src) return;
+    var lb = document.getElementById('imageLightbox');
+    var img = document.getElementById('lightboxImage');
+    img.src = src;
+    lb.classList.add('open');
+  }
+
+  // 生成星级
+  function renderStars(score) {
+    var s = Math.round(score || 0);
+    var html = '';
+    for (var i = 0; i < s; i++) html += '�?;
+    for (var i = s; i < 5; i++) html += '�?;
+    return html;
+  }
+
+  // === 加载酒店详情 ===
+  fetch('data/hotels.json')
+    .then(function(r){ return r.json(); })
+    .then(function(resp){
+      if (!resp.ok || !resp.data) return;
+      var h = resp.data.find(function(item){ return item.id == hotelId; });
+      if (!h) return;
+
+      // Hero
+      document.getElementById('heroTitle').textContent = h.name || '酒店';
+      document.getElementById('heroImage').src = h.cover_image || 'images/crown_04.jpg';
+
+      var stars = renderStars(h.score);
+      var metaHtml = '<span>' + stars + ' ' + (h.score || '') + '</span>';
+      if (h.address) metaHtml += '<span>📍 ' + h.address + '</span>';
+      if (h.tags) {
+        var tags = (typeof h.tags === 'string') ? h.tags.split(',') : (h.tags || []);
+        if (tags.length) metaHtml += '<span>🏷�?' + tags.slice(0,3).join(' · ') + '</span>';
+      }
+      document.getElementById('heroMeta').innerHTML = metaHtml;
+
+      // Intro
+      document.getElementById('introDesc1').textContent = h.description || '暂无介绍';
+      // 额外描述 - 生成一段通用介绍
+      document.getElementById('introDesc2').textContent = (h.name || '该酒�?) + '�?宾至如归"为服务宗旨，全程中文沟通无障碍。从接机入住到行程咨询，前台团队随时为您提供贴心服务�?;
+
+      // Tags
+      if (h.tags) {
+        var tgs = (typeof h.tags === 'string') ? h.tags.split(',') : h.tags;
+        var tagsHtml = '';
+        tgs.forEach(function(t) {
+          tagsHtml += '<span>�?' + t.trim() + '</span>';
+        });
+        document.getElementById('introTags').innerHTML = tagsHtml;
+      }
+
+      // Hotel Gallery
+      var galleryEl = document.getElementById('hotelGallery');
+      var galleryImages = [];
+      if (h.images && h.images.length) {
+        galleryImages = h.images.filter(function(i){ return i; });
+      }
+      // 如果没在 images 里，试试提取文件名前缀
+      if (!galleryImages.length && h.slug) {
+        // 尝试加载 slug 系列图片
+        for (var i = 1; i <= 9; i++) {
+          galleryImages.push('images/' + h.slug + '_0' + i + '.jpg');
+        }
+      }
+      // fallback: 通用图片
+      if (!galleryImages.length) {
+        galleryImages = [
+          'images/crown_03.jpg',
+          'images/crown_07.jpg',
+          'images/crown_04.jpg'
+        ];
+      }
+
+      if (galleryImages.length) {
+        var galHtml = '';
+        galHtml += '<img src="' + galleryImages[0] + '" onclick="openLightbox(\'' + galleryImages[0] + '\')" onerror="this.style.display=\'none\'">';
+        for (var i = 1; i < Math.min(galleryImages.length, 4); i++) {
+          galHtml += '<img src="' + galleryImages[i] + '" onclick="openLightbox(\'' + galleryImages[i] + '\')" onerror="this.style.display=\'none\'">';
+        }
+        galleryEl.innerHTML = galHtml;
+      }
+
+      // Location
+      if (h.address) document.getElementById('locAddress').textContent = h.address;
+      if (h.phone) document.getElementById('locPhone').textContent = h.phone;
+
+      // Map - 如果有坐标，替换为静态地�?
+      if (h.lat && h.lng) {
+        var mc = document.getElementById('mapContainer');
+        if (mc) {
+          mc.innerHTML = '<div style="font-size:48px;margin-bottom:8px;">🗺�?/div>' +
+            '<div style="font-size:14px;color:var(--gray-text);">' + h.address + '</div>' +
+            '<a href="https://www.google.com/maps?q=' + h.lat + ',' + h.lng + '" target="_blank" style="font-size:12px;color:var(--gold-dark);margin-top:6px;text-decoration:underline;">�?Google Maps 中查�?�?/a>';
+        }
+      }
+
+      // Facilities
+      if (h.tags) {
+        var facTags = (typeof h.tags === 'string') ? h.tags.split(',') : h.tags;
+        var facIcons = {
+          '无线网络': '📶', 'WiFi': '📶', 'wifi': '📶',
+          '泳池': '🏊', '游泳�?: '🏊',
+          '餐厅': '🍽�?, '餐饮': '🍽�?,
+          '停车�?: '🅿�?, '停车': '🅿�?,
+          '接送机': '🚕', '接�?: '🚕',
+          '中文服务': '🗣�?, '前台': '🗣�?,
+          '健身�?: '🏋�?,
+          '24小时热水': '🚿',
+          '空调': '❄️',
+          '洗衣': '👔', '洗衣服务': '👔',
+          '行李寄存': '🧳',
+          '安保': '🛡�?, '24h安保': '🛡�?,
+          '商务中心': '💼'
+        };
+        var facDefault = '🏨';
+        var facHtml = '';
+        facTags.forEach(function(t) {
+          var icon = facIcons[t.trim()] || facDefault;
+          facHtml += '<div class="facility-card"><div class="f-icon">' + icon + '</div><h4>' + t.trim() + '</h4><p>畅享便捷服务</p></div>';
+        });
+        if (facHtml) {
+          document.getElementById('facilitiesGrid').innerHTML = facHtml;
+          document.getElementById('facilitiesSection').style.display = '';
+        }
+      }
+    })
+    .catch(function(){})
+    .then(function(){
+      // 隐藏 loading 标记
+      var loadingEls = document.querySelectorAll('.loading');
+      loadingEls.forEach(function(el){ el.style.display = 'none'; });
+    });
+
+  // === 加载房型 ===
+  fetch('data/rooms.json')
+    .then(function(r){ return r.json(); })
+    .then(function(resp){
+      if (!resp.ok || !resp.data) {
+        document.getElementById('roomsGrid').innerHTML = '<div class="empty-state">暂无房型信息</div>';
+        return;
+      }
+      var roomData = resp.data.filter(function(item){ return item.hotel_id == hotelId; });
+      if (!roomData.length) {
+        document.getElementById('roomsGrid').innerHTML = '<div class="empty-state">暂无房型信息</div>';
+        return;
+      }
+      var grid = document.getElementById('roomsGrid');
+      grid.innerHTML = roomData.map(function(rm, i) {
+        var amts = rm.amenities;
+        if (typeof amts === 'string') {
+          try { amts = JSON.parse(amts); } catch(e) { amts = []; }
+        }
+        if (!amts || !amts.length) {
+          amts = (rm.bed_type ? [rm.bed_type] : ['独立卫浴','空调','WiFi']);
+        }
+        var amtList = amts.map(function(a){ return '<span>' + a + '</span>'; }).join('');
+        // 房型图片 �?优先取DB内images字段，次选hotel_slug系列
+        var rmImgUrl = '';
+        if (rm.images && rm.images.length && rm.images[0]) {
+          rmImgUrl = rm.images[0];
+        } else if (rm.hotel_slug) {
+          // 尝试 slug_room_{id}.jpg 模式
+          rmImgUrl = 'images/' + rm.hotel_slug + '_0' + ((i % 9) + 1) + '.jpg';
+        }
+        var rmImgHtml = rmImgUrl
+          ? '<img class="room-img" src="' + rmImgUrl + '" onerror="this.parentElement.querySelector(\'.room-img\') && (this.style.display=\'none\')" alt="' + rm.name + '">'
+          : '<div style="height:8px"></div>';
+        return '<div class="room-card">' +
+          rmImgHtml +
+          '<div class="room-body">' +
+          '<h3>' + rm.name + '</h3>' +
+          '<div class="room-desc">' + (rm.description || rm.bed_type || '') + '</div>' +
+          '<div class="room-features">' + amtList + '</div>' +
+          '<div class="room-price">$' + rm.price + ' <small>�?�?/small></div>' +
+          '<button class="btn-book" data-room-id="' + rm.id + '" data-room-name="' + rm.name + '" data-room-price="' + rm.price + '">立即预订</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    })
+    .catch(function(){
+      document.getElementById('roomsGrid').innerHTML = '<div class="empty-state">加载房型失败</div>';
+    });
+
+  // === 加载评价 ===
+  fetch('data/reviews.json')
+    .then(function(r){ return r.json(); })
+    .then(function(resp){
+      if (!resp.ok || !resp.data) {
+        document.getElementById('reviewsGrid').innerHTML = '<div class="empty-state">暂无评价</div>';
+        return;
+      }
+      var reviewData = resp.data.filter(function(item){ return item.hotel_id == hotelId; });
+      if (!reviewData.length) {
+        document.getElementById('reviewsGrid').innerHTML = '<div class="empty-state">暂无评价</div>';
+        return;
+      }
+      var grid = document.getElementById('reviewsGrid');
+      grid.innerHTML = reviewData.map(function(rv){
+        var s = '';
+        for (var i = 0; i < (rv.score || 5); i++) s += '�?;
+        for (var i = (rv.score || 5); i < 5; i++) s += '�?;
+        return '<div class="review-card">' +
+          '<div class="stars">' + s + '</div>' +
+          '<p>�? + rv.content + '�?/p>' +
+          '<div class="author">—�?' + (rv.guest_name || rv.user_name || '住客') + '</div>' +
+        '</div>';
+      }).join('');
+    })
+    .catch(function(){
+      document.getElementById('reviewsGrid').innerHTML = '<div class="empty-state">加载评价失败</div>';
+    });
+
+})();
+</script>
+
+<script>
+// ===== Load TopBar =====
+fetch('topbar.html?v=20260515')
+  .then(function(r){ return r.text(); })
+  .then(function(h){
+    document.getElementById('topbar-placeholder').innerHTML = h;
+  });
+
+// ===== Load Nav =====
+fetch('nav.html?v=20260515')
+  .then(function(r){ return r.text(); })
+  .then(function(h){
+    var ph = document.getElementById('nav-placeholder');
+    var page = ph ? ph.getAttribute('data-active') : '';
+    if (page) {
+      h = h.replace('class="nav-item" data-page="' + page + '"', 'class="nav-item active" data-page="' + page + '"');
+    }
+    document.getElementById('nav-placeholder').innerHTML = h;
+  });
+
+// ===== 导航事件委托 =====
+document.addEventListener('click', function(e) {
+  var toggle = e.target.closest('.mobile-toggle');
+  if (toggle) {
+    var links = document.querySelector('.nav-links');
+    if (links) links.classList.toggle('open');
+    return;
+  }
+  var link = e.target.closest('nav a');
+  if (link) {
+    var nl = document.querySelector('.nav-links');
+    if (nl) nl.classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>

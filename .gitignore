@@ -1,0 +1,31 @@
+﻿# PHP backend - excluded for migration
+api/
+admin.php
+admin-*.php
+db.php
+init_db.php
+seed.php
+
+# Database files
+data/hotel.db
+data/hotel.db.backup-*
+
+# Python scripts
+*.py
+
+# Backups
+*.bak
+
+# Keys
+private.key
+
+# Upload scripts
+up.js
+submit.js
+
+# Node
+node_modules/
+
+# OS files
+Thumbs.db
+.DS_Store

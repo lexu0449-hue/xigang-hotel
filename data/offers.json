@@ -1,0 +1,59 @@
+{
+    "ok": true,
+    "data": [
+        {
+            "id": 4,
+            "title": "皇冠假日酒店连住优惠",
+            "slug": null,
+            "description": "连住3晚以上享8折",
+            "image": null,
+            "type": "promotion",
+            "discount_type": "percent",
+            "discount_value": 20,
+            "hotel_id": 4,
+            "room_id": null,
+            "min_nights": 3,
+            "valid_from": null,
+            "valid_to": null,
+            "is_active": 1,
+            "sort_order": 0,
+            "created_at": "2026-05-15 09:04:53"
+        },
+        {
+            "id": 5,
+            "title": "八闽酒店特惠",
+            "slug": null,
+            "description": "预订即享免费接机",
+            "image": null,
+            "type": "promotion",
+            "discount_type": "fixed",
+            "discount_value": 0,
+            "hotel_id": 5,
+            "room_id": null,
+            "min_nights": 1,
+            "valid_from": null,
+            "valid_to": null,
+            "is_active": 1,
+            "sort_order": 0,
+            "created_at": "2026-05-15 09:04:53"
+        },
+        {
+            "id": 6,
+            "title": "会员专属价",
+            "slug": null,
+            "description": "ALL会员享专属房价",
+            "image": null,
+            "type": "promotion",
+            "discount_type": "percent",
+            "discount_value": 10,
+            "hotel_id": 6,
+            "room_id": null,
+            "min_nights": 1,
+            "valid_from": null,
+            "valid_to": null,
+            "is_active": 1,
+            "sort_order": 0,
+            "created_at": "2026-05-15 09:04:53"
+        }
+    ]
+}

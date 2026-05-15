@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预订确认 — 西港酒店集团</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1a2c3e; --navy-dark: #0f1d2b; --gold: #c8a96e; --gold-dark: #a88c4e;
+  --red: #d94a38; --white: #ffffff; --gray-light: #f5f7fa; --gray-mid: #e8ebef;
+  --gray-text: #666666; --gray-dark: #333333; --green: #22c55e;
+  --font-display: 'Noto Serif SC', 'Georgia', serif;
+  --font-body: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-body); color: var(--gray-dark); background: var(--gray-light); -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; }
+.top-bar {
+  background: var(--navy-dark); color: var(--gold); padding: 8px 40px;
+  display: flex; justify-content: flex-end; align-items: center; gap: 24px; font-size: 12px;
+}
+.top-bar a { color: var(--gold); transition: var(--transition); }
+.top-bar a:hover { color: var(--white); }
+.top-bar .divider { color: rgba(200,169,110,0.3); }
+nav {
+  background: var(--navy); padding: 0 40px; display: flex; align-items: center;
+  height: 64px; position: fixed; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+nav .logo {
+  font-family: var(--font-display); font-size: 22px; font-weight: 700;
+  color: var(--gold); letter-spacing: 2px; margin-right: 48px;
+}
+nav .logo span { color: var(--white); font-weight: 300; }
+nav .nav-links { display: flex; gap: 28px; flex: 1; }
+nav .nav-links a { color: rgba(255,255,255,0.85); font-size: 13px; transition: var(--transition); position: relative; padding: 4px 0; }
+nav .nav-links a:hover { color: var(--gold); }
+nav .nav-actions a { color: rgba(255,255,255,0.85); font-size: 13px; transition: var(--transition); }
+nav .nav-actions a:hover { color: var(--gold); }
+.mobile-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; }
+.mobile-toggle span { width: 22px; height: 2px; background: var(--gold); border-radius: 2px; }
+
+.confirm-wrap {
+  max-width: 640px; margin: 60px auto; padding: 0 20px;
+}
+.confirm-card {
+  background: var(--white); border-radius: 16px;
+  box-shadow: 0 2px 30px rgba(26,44,62,0.08);
+  overflow: hidden;
+}
+.confirm-header {
+  background: linear-gradient(135deg, #1a8b3c, #22c55e);
+  color: var(--white); text-align: center;
+  padding: 40px 24px 32px;
+}
+.confirm-header .icon { font-size: 56px; margin-bottom: 12px; }
+.confirm-header h1 { font-family: var(--font-display); font-size: 24px; margin-bottom: 4px; }
+.confirm-header p { font-size: 14px; opacity: 0.85; }
+.confirm-body { padding: 32px 24px; }
+.confirm-body .order-no {
+  text-align: center; margin-bottom: 24px;
+}
+.confirm-body .order-no .label { font-size: 12px; color: var(--gray-text); }
+.confirm-body .order-no .value {
+  font-size: 22px; font-weight: 700; color: var(--navy); letter-spacing: 1px;
+  font-family: monospace;
+}
+.confirm-detail { border-top: 1px solid var(--gray-light); padding-top: 24px; }
+.confirm-detail .row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--gray-light);
+}
+.confirm-detail .row:last-child { border-bottom: none; }
+.confirm-detail .row .label { font-size: 13px; color: var(--gray-text); }
+.confirm-detail .row .value { font-size: 14px; color: var(--navy); font-weight: 500; }
+.confirm-detail .row.total .label { font-size: 15px; font-weight: 600; color: var(--gray-dark); }
+.confirm-detail .row.total .value { font-size: 24px; font-weight: 700; color: var(--red); }
+.confirm-footer {
+  padding: 0 24px 32px; text-align: center;
+}
+.confirm-footer .btn {
+  display: inline-block; padding: 12px 40px; border-radius: 25px;
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: var(--transition);
+}
+.confirm-footer .btn-primary {
+  background: var(--gold); color: var(--navy); border: none;
+}
+.confirm-footer .btn-primary:hover {
+  background: #b89550; transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(200,169,110,0.3);
+}
+.confirm-footer .btn-outline {
+  background: transparent; border: 1px solid var(--gold); color: var(--gold-dark);
+  margin-left: 12px;
+}
+.confirm-footer .btn-outline:hover { background: rgba(200,169,110,0.08); }
+.confirm-footer .tip {
+  margin-top: 16px; font-size: 12px; color: var(--gray-text);
+}
+.status-badge {
+  display: inline-block; padding: 4px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.status-badge.pending { background: #fef3c7; color: #92400e; }
+.status-badge.confirmed { background: #dbeafe; color: #1e40af; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .mobile-toggle { display: flex; }
+  nav .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--navy); flex-direction: column; padding: 20px; gap: 16px; }
+  nav .nav-links.open { display: flex; }
+  nav .nav-actions { display: none; }
+  .confirm-wrap { margin: 40px auto; }
+}
+</style>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="topbar-placeholder" style="min-height:30px"></div>
+</div>
+
+<div id="nav-placeholder" style="min-height:64px" data-active="account"></div>
+
+<div class="confirm-wrap">
+  <div class="confirm-card">
+    <div class="confirm-header">
+      <div class="icon">🎉</div>
+      <h1>预订成功！</h1>
+      <p>感谢您的预订，您的订单已提交</p>
+    </div>
+    <div class="confirm-body" id="confirmBody">
+      <div class="order-no">
+        <div class="label">订单号</div>
+        <div class="value" id="orderNo">——</div>
+      </div>
+      <div class="confirm-detail">
+        <div class="row">
+          <span class="label">状态</span>
+          <span class="status-badge pending">待确认</span>
+        </div>
+        <div class="row" id="rowRoom">
+          <span class="label">房型</span>
+          <span class="value" id="roomName">——</span>
+        </div>
+        <div class="row" id="rowHotel">
+          <span class="label">酒店</span>
+          <span class="value" id="hotelName">——</span>
+        </div>
+        <div class="row">
+          <span class="label">入住日期</span>
+          <span class="value" id="checkIn">——</span>
+        </div>
+        <div class="row">
+          <span class="label">退房日期</span>
+          <span class="value" id="checkOut">——</span>
+        </div>
+        <div class="row">
+          <span class="label">入住人</span>
+          <span class="value" id="guestName">——</span>
+        </div>
+        <div class="row">
+          <span class="label">入住天数</span>
+          <span class="value" id="nights">—— 晚</span>
+        </div>
+        <div class="row total">
+          <span class="label">预计总价</span>
+          <span class="value" id="totalAmount">$0</span>
+        </div>
+      </div>
+    </div>
+    <div class="confirm-footer">
+      <a href="account.html" class="btn btn-primary">查看我的账户</a>
+      <a href="hotels.html" class="btn btn-outline">继续预订</a>
+      <div class="tip">订单当前为"待确认"状态，酒店将在24小时内确认</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var params = new URLSearchParams(location.search);
+  var no = params.get('no') || '——';
+  var total = params.get('total') || '0';
+  var nights = params.get('nights') || '1';
+  var room = decodeURIComponent(params.get('room') || '——');
+  var checkIn = params.get('check_in') || '——';
+  var checkOut = params.get('check_out') || '——';
+  var name = decodeURIComponent(params.get('name') || '——');
+
+  document.getElementById('orderNo').textContent = no;
+  document.getElementById('roomName').textContent = room;
+  document.getElementById('checkIn').textContent = checkIn;
+  document.getElementById('checkOut').textContent = checkOut;
+  document.getElementById('guestName').textContent = name;
+  document.getElementById('nights').textContent = nights + ' 晚';
+  document.getElementById('totalAmount').textContent = '$' + total;
+})();
+</script>
+
+
+<script>
+// ===== Load TopBar =====
+fetch('topbar.html?v=20260515')
+  .then(function(r){ return r.text(); })
+  .then(function(h){
+    document.getElementById('topbar-placeholder').innerHTML = h;
+  });
+
+// ===== Load Nav =====
+fetch('nav.html?v=20260515')
+  .then(function(r){ return r.text(); })
+  .then(function(h){
+    var ph = document.getElementById('nav-placeholder');
+    var page = ph ? ph.getAttribute('data-active') : '';
+    if (page) {
+      h = h.replace('class="nav-item" data-page="' + page + '"', 'class="nav-item active" data-page="' + page + '"');
+    }
+    document.getElementById('nav-placeholder').innerHTML = h;
+  });
+
+// ===== 导航事件委托 =====
+document.addEventListener('click', function(e) {
+  var toggle = e.target.closest('.mobile-toggle');
+  if (toggle) {
+    var links = document.querySelector('.nav-links');
+    if (links) links.classList.toggle('open');
+    return;
+  }
+  var link = e.target.closest('nav a');
+  if (link) {
+    var nl = document.querySelector('.nav-links');
+    if (nl) nl.classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>

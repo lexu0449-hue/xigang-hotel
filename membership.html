@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>会员中心 — 西港酒店集团</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>:root{--navy:#1a2c3e;--navy-dark:#0f1d2b;--gold:#c8a96e;--white:#ffffff;--gray-light:#f5f7fa;--gray-text:#666;--font-display:'Noto Serif SC','Georgia',serif;--font-body:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;--transition:all 0.3s ease}*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font-body);color:#333;background:var(--white)}a{text-decoration:none;color:inherit}
+.top-bar{background:var(--navy-dark);color:var(--gold);padding:8px 40px;display:flex;justify-content:flex-end;gap:24px;font-size:12px}.top-bar a{color:var(--gold);transition:var(--transition)}.top-bar a:hover{color:var(--white)}
+nav{background:var(--navy);padding:0 40px;display:flex;align-items:center;height:64px;position:fixed;top:0;z-index:100}
+nav .logo{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold);letter-spacing:2px;margin-right:48px}
+nav .logo span{color:var(--white);font-weight:300}nav .nav-links{display:flex;gap:28px;flex:1}
+nav .nav-links a{color:rgba(255,255,255,0.85);font-size:13px;transition:var(--transition);padding:4px 0}
+nav .nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.section{padding:80px 40px}.section-title{text-align:center;margin-bottom:48px}
+.section-title h2{font-family:var(--font-display);font-size:clamp(28px,3vw,38px);color:var(--navy);margin-bottom:12px}
+.section-title p{color:var(--gray-text);font-size:15px;max-width:600px;margin:0 auto;line-height:1.6}
+
+
+
+
+
+
+
+.tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;max-width:1000px;margin:0 auto}
+.tier-card{text-align:center;padding:40px 24px;border-radius:8px;border:1px solid var(--gray-light);transition:var(--transition)}
+.tier-card:hover{border-color:var(--gold);box-shadow:0 4px 20px rgba(26,44,62,0.08)}
+.tier-card .icon{font-size:40px;margin-bottom:12px}
+.tier-card h3{font-size:18px;color:var(--navy);margin-bottom:8px}
+.tier-card p{font-size:13px;color:var(--gray-text)}
+
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;max-width:800px;margin:0 auto}
+.benefit{display:flex;align-items:center;gap:16px;padding:20px;background:var(--gray-light);border-radius:8px}
+.benefit .icon{font-size:24px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--navy);color:var(--gold);border-radius:50%;flex-shrink:0}
+.benefit h4{font-size:15px;color:var(--navy);margin-bottom:4px}
+.benefit p{font-size:13px;color:var(--gray-text)}
+
+.mobile-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; }
+.mobile-toggle span { width: 22px; height: 2px; background: var(--gold); border-radius: 2px; transition: 0.3s; }
+.mobile-toggle span:nth-child(2) { width: 16px; }
+
+nav .nav-links a { position: relative; }
+nav .nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 2px; background: var(--gold); transition: var(--transition);
+}
+nav .nav-links a:hover::after { width: 100%; }
+nav .nav-links a.active { color: var(--gold); }
+nav .nav-links a.active::after { width: 100%; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .mobile-toggle { display: flex; }
+  nav .nav-links {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--navy);
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 99;
+  }
+  nav .nav-links.open { display: flex; }
+  nav .nav-actions { display: none; }
+  .section { padding: 48px 20px; }
+  .tier-grid, .benefits-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  body { overflow-x: hidden; }
+  body { font-size: 14px; }
+  .section { padding: 32px 16px !important; }
+}
+
+
+.page-title {
+  background: linear-gradient(135deg, var(--navy), #2a4a6e);
+  padding: 64px 40px;
+  text-align: center;
+  color: var(--white);
+}
+.page-title h1 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 42px);
+  margin-bottom: 12px;
+}
+.page-title h1 span { color: var(--gold); }
+.page-title p {
+  font-size: 15px;
+  opacity: 0.8;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.page-title .title-actions {
+  margin-top: 24px;
+}
+.page-title .title-actions .btn {
+  display: inline-block;
+  padding: 10px 32px;
+  border-radius: 25px;
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: 600;
+  margin: 0 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+.page-title .title-actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(200, 169, 110, 0.4);
+}
+.page-title .title-actions .btn-outline {
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+}
+
+</style>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="topbar-placeholder" style="min-height:30px"></div>
+</div>
+<div id="nav-placeholder" style="min-height:64px" data-active="membership"></div>
+
+<div class="page-title">
+  <h1>👑 ALL<span>会员俱乐部</span></h1>
+  <p>注册即享会员专属房价、积分累积、免费住宿兑换</p>
+  <p>每一次入住都离下一次免费住宿更近一步</p>
+  <div class="title-actions">
+    <a href="register.html" class="btn">免费加入</a>
+    <a href="login.html" class="btn btn-outline">登录</a>
+  </div>
+</div>
+
+<div class="user-card" style="display:none;max-width:600px;margin:-40px auto 0;background:var(--white);border-radius:12px;box-shadow:0 4px 30px rgba(26,44,62,0.12);padding:32px;text-align:center;position:relative;z-index:10;">
+  <div class="user-avatar" style="font-size:48px;margin-bottom:8px;">👤</div>
+  <h2 class="user-name" style="font-size:22px;color:var(--navy);margin-bottom:4px;">会员</h2>
+  <p class="user-level" style="font-size:14px;color:var(--gray-text);margin-bottom:4px;">加载中...</p>
+  <p class="user-stats" style="font-size:13px;color:var(--gold);"></p>
+</div>
+
+<section class="section">
+    <div class="tier-grid">
+    <div class="tier-card"><div class="icon">⭐</div><h3>普通会员</h3><p>免费注册即享<br>会员专属房价 · 积分累积</p></div>
+    <div class="tier-card"><div class="icon">🥇</div><h3>银卡会员</h3><p>入住5晚或累积500积分<br>含早餐 · 优先入住</p></div>
+    <div class="tier-card"><div class="icon">🥇</div><h3>金卡会员</h3><p>入住15晚或累积1500积分<br>房型升级 · 延迟退房</p></div>
+    <div class="tier-card"><div class="icon">💎</div><h3>钻石会员</h3><p>入住30晚或累积3000积分<br>全套礼遇 · 生日特惠</p></div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--gray-light);">
+    <div class="benefits-grid">
+    <div class="benefit"><div class="icon">💰</div><div><h4>会员专属房价</h4><p>比公开价低10%-15%</p></div></div>
+    <div class="benefit"><div class="icon">⭐</div><div><h4>积分累积</h4><p>每消费$1积1分</p></div></div>
+    <div class="benefit"><div class="icon">🎁</div><div><h4>积分兑换</h4><p>累积积分兑换免费住宿</p></div></div>
+    <div class="benefit"><div class="icon">🛎️</div><div><h4>优先安排</h4><p>热门房型优先预留</p></div></div>
+    <div class="benefit"><div class="icon">🎂</div><div><h4>生日特惠</h4><p>生日月入住享额外折扣</p></div></div>
+    <div class="benefit"><div class="icon">🚐</div><div><h4>免费接机</h4><p>金卡及以上会员每年2次</p></div></div>
+  </div>
+</section>
+
+
+
+<script>document.addEventListener('click',function(e){var b=e.target.closest('.mobile-toggle');if(b){document.querySelector('nav>.nav-links').classList.toggle('open');return}var n=document.querySelector('nav>.nav-links');if(n&&n.classList.contains('open')&&!e.target.closest('nav'))n.classList.remove('open')});document.querySelectorAll('nav>.nav-links a').forEach(function(l){l.addEventListener('click',function(){this.closest('.nav-links').classList.remove('open')})});</script>
+<div id="footer-placeholder"></div>
+<script>
+fetch('footer.html?v=20260515').then(r=>r.text()).then(h=>document.getElementById('footer-placeholder').innerHTML=h);
+</script>
+
+<script>
+// ===== Load TopBar =====
+fetch('topbar.html?v=20260515')
+  .then(function(r){ return r.text(); })
+  .then(function(h){
+    document.getElementById('topbar-placeholder').innerHTML = h;
+  });
+
+// ===== Load Nav =====
+fetch('nav.html?v=20260515')
+  .then(function(r){ return r.text(); })
+  .then(function(h){
+    var ph = document.getElementById('nav-placeholder');
+    var page = ph ? ph.getAttribute('data-active') : '';
+    if (page) {
+      h = h.replace('class="nav-item" data-page="' + page + '"', 'class="nav-item active" data-page="' + page + '"');
+    }
+    document.getElementById('nav-placeholder').innerHTML = h;
+  });
+
+// ===== 导航事件委托 =====
+document.addEventListener('click', function(e) {
+  var toggle = e.target.closest('.mobile-toggle');
+  if (toggle) {
+    var links = document.querySelector('.nav-links');
+    if (links) links.classList.toggle('open');
+    return;
+  }
+  var link = e.target.closest('nav a');
+  if (link) {
+    var nl = document.querySelector('.nav-links');
+    if (nl) nl.classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>
